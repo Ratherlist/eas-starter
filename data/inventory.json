@@ -1,0 +1,28 @@
+{
+  "FIL-PLA-WHT": {
+    "name": "PLA filament, white",
+    "qty": 4.0,
+    "location": "bin-a"
+  },
+  "FIL-PETG-BLK": {
+    "Name": "PETG filament, black",
+    "qty": 1,
+    "location": "bin-a"
+  },
+  "SCRW-M3": {
+    "name": "M3 screws",
+    "qty": 200.0,
+    "category": "hardware"
+  },
+  "TAPE-KAPTON": {
+    "name": "Kapton tape 10mm",
+    "Qty": 6.0,
+    "location": "drawer-2"
+  },
+  "RES-10K": {
+    "name": "10k resistor pack",
+    "qty": 0.5,
+    "location": "bin-c",
+    "category": "electronics"
+  }
+}
