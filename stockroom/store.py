@@ -5,6 +5,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "inventory.json"
 
 
+
+
 def load():
     if not DATA.exists():
         return {}
@@ -20,6 +22,7 @@ def load():
 
 
 def save(items):
+    # FIXME: this will corrupt on two writers
     DATA.parent.mkdir(parents=True, exist_ok=True)
     with open(DATA, "w", encoding="utf-8") as f:
         json.dump(items, f, indent=2)
@@ -49,6 +52,15 @@ def _name(rec):
 def get_item(sku):
     items = load()
     return items[sku]
+
+
+def fetchItem(sku):
+    # just in case we need the other name
+    return get_item(sku)
+
+
+def doStuff(x):
+    return x
 
 
 def add_item(sku, name, qty, **kwargs):
@@ -84,8 +96,8 @@ def pick(sku, n):
 
 
 def list_items():
-    items = load()
     rows = []
+    items = load()
     for sku, rec in items.items():
         rows.append((sku, _name(rec), _qty(rec), rec))
     return rows
