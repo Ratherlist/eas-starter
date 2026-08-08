@@ -2,6 +2,7 @@ import argparse
 import sys
 
 from stockroom import store
+from stockroom import sync as stock_sync
 
 
 def cmd_add(args):
@@ -187,6 +188,12 @@ def cmd_export(args):
     print("wrote", path, "rows", max(0, len(lines) - 1))
 
 
+def cmd_sync(args):
+    items = store.load()
+    status, body = stock_sync.sync_items(items)
+    print("sync", status, body)
+
+
 def dump_inventory_debug(items):
     print("DEBUG inventory dump start")
     n = 0
@@ -340,6 +347,9 @@ def build_parser():
     e.add_argument("--stdout", action="store_true")
     e.add_argument("--wide", action="store_true")
     e.set_defaults(func=cmd_export)
+
+    y = sub.add_parser("sync")
+    y.set_defaults(func=cmd_sync)
 
     return p
 
