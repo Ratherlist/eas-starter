@@ -194,6 +194,19 @@ def cmd_sync(args):
     print("sync", status, body)
 
 
+def cmd_category(args):
+    items = store.load()
+    rec = items[args.sku]
+    rec["category"] = args.category
+    store.save(items)
+    print("category", args.sku, args.category)
+
+
+def cmd_tag(args):
+    args.category = args.tag
+    cmd_category(args)
+
+
 def dump_inventory_debug(items):
     print("DEBUG inventory dump start")
     n = 0
@@ -350,6 +363,16 @@ def build_parser():
 
     y = sub.add_parser("sync")
     y.set_defaults(func=cmd_sync)
+
+    t = sub.add_parser("tag")
+    t.add_argument("sku")
+    t.add_argument("tag")
+    t.set_defaults(func=cmd_tag)
+
+    c = sub.add_parser("category")
+    c.add_argument("sku")
+    c.add_argument("category")
+    c.set_defaults(func=cmd_category)
 
     return p
 
