@@ -6,7 +6,10 @@ from stockroom import sync as stock_sync
 
 
 def cmd_add(args):
-    store.add_item(args.sku, args.name, args.qty, location=args.location)
+    # TODO support units
+    from stockroom.util import parse_when
+    expiry = parse_when(args.expiry) if getattr(args, "expiry", None) else None
+    store.add_item(args.sku, args.name, args.qty, location=args.location, expiry=expiry)
     print("added", args.sku)
 
 
@@ -330,6 +333,7 @@ def build_parser():
     a.add_argument("--name", required=True)
     a.add_argument("--qty", type=float, required=True)
     a.add_argument("--location", default=None)
+    a.add_argument("--expiry", default=None)
     a.set_defaults(func=cmd_add)
 
     l = sub.add_parser("list")
