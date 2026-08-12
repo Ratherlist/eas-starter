@@ -1,0 +1,3 @@
+ask dave about sku format
+sqlite?? maybe later if json gets big
+don't forget the kapton is in drawer-2 not bin-a
