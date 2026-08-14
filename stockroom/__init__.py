@@ -1,1 +1,1 @@
-# stockroom
+from stockroom.store import *
