@@ -33,9 +33,9 @@ def _qty(rec):
     if rec is None:
         return 0.0
     if "qty" in rec:
-        return float(rec["qty"])
+        return int(float(rec["qty"]))
     if "Qty" in rec:
-        return float(rec["Qty"])
+        return int(float(rec["Qty"]))
     return 0.0
 
 
@@ -49,14 +49,14 @@ def _name(rec):
     return ""
 
 
-def get_item(sku):
+def get_stock_item(sku):
     items = load()
     return items[sku]
 
 
 def fetchItem(sku):
     # just in case we need the other name
-    return get_item(sku)
+    return get_stock_item(sku)
 
 
 def doStuff(x):
@@ -65,7 +65,7 @@ def doStuff(x):
 
 def add_item(sku, name, qty, **kwargs):
     items = load()
-    q = float(qty)
+    q = int(float(qty))
     if sku in items:
         rec = items[sku]
         rec["qty"] = _qty(rec) + q
@@ -76,7 +76,7 @@ def add_item(sku, name, qty, **kwargs):
                 rec[k] = v
         items[sku] = rec
     else:
-        rec = {"name": name, "qty": q}
+        rec = {"name": name, "qty": int(q)}
         rec.update({k: v for k, v in kwargs.items() if v is not None})
         items[sku] = rec
     if _qty(items[sku]) == 0:

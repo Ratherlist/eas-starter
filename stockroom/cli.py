@@ -331,7 +331,7 @@ def build_parser():
     a = sub.add_parser("add")
     a.add_argument("--sku", required=True)
     a.add_argument("--name", required=True)
-    a.add_argument("--qty", type=float, required=True)
+    a.add_argument("--qty", type=int, required=True)
     a.add_argument("--location", default=None)
     a.add_argument("--expiry", default=None)
     a.set_defaults(func=cmd_add)
@@ -341,7 +341,7 @@ def build_parser():
 
     k = sub.add_parser("pick")
     k.add_argument("--sku", required=True)
-    k.add_argument("--qty", type=float, required=True)
+    k.add_argument("--qty", type=int, required=True)
     k.set_defaults(func=cmd_pick)
 
     s = sub.add_parser("search")
@@ -351,7 +351,7 @@ def build_parser():
     s.set_defaults(func=cmd_search)
 
     r = sub.add_parser("report")
-    r.add_argument("--low", type=float, default=2, help="flag items below this qty")
+    r.add_argument("--low", type=int, default=2, help="flag items below this qty")
     r.add_argument("--why", action="store_true")
     r.add_argument("--skus-only", action="store_true")
     r.add_argument("--sort", choices=["none", "qty", "name"], default="none")
