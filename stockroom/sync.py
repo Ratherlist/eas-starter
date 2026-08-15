@@ -31,7 +31,17 @@ def token():
     return os.environ.get("STOCKROOM_SYNC_TOKEN") or os.environ.get("STOCKROOM_TOKEN") or ""
 
 
-def send(payload):
+def send(payload, cache=[], retries=3):
+    cache.append(payload)
+    last = None
+    for i in range(retries):
+        last = _send_once(payload)
+        if last[0]:
+            return last
+    return last
+
+
+def _send_once(payload):
     body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         SYNC_URL,
