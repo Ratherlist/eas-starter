@@ -3,6 +3,7 @@ import sys
 
 from stockroom import store
 from stockroom import sync as stock_sync
+from stockroom.alerts import OverstockAlertEngine, AbsoluteThreshold, PercentThreshold, NullSupplier
 
 
 def cmd_add(args):
@@ -191,6 +192,16 @@ def cmd_export(args):
     print("wrote", path, "rows", max(0, len(lines) - 1))
 
 
+
+def cmd_alert(args):
+    items = store.load()
+    engine = OverstockAlertEngine(strategy=AbsoluteThreshold(), plugins=[NullSupplier()])
+    if args.percent:
+        engine.strategy = PercentThreshold(baseline=args.percent)
+    hits = engine.run(items, args.threshold)
+    print("overstock engine flagged", hits)
+
+
 def cmd_sync(args):
     items = store.load()
     status, body = stock_sync.sync_items(items)
@@ -367,6 +378,11 @@ def build_parser():
 
     y = sub.add_parser("sync")
     y.set_defaults(func=cmd_sync)
+
+    al = sub.add_parser("alert")
+    al.add_argument("--threshold", type=float, default=2)
+    al.add_argument("--percent", type=float, default=None)
+    al.set_defaults(func=cmd_alert)
 
     t = sub.add_parser("tag")
     t.add_argument("sku")
